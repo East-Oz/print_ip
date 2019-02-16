@@ -94,7 +94,7 @@ int main()
 	//std::cout << "--------------------------------" << std::endl;
 	print_ip( int( 2130706433 ) );
 	//std::cout << "--------------------------------" << std::endl;
-	print_ip( long long int( 8875824491850138409 ) );
+	print_ip( unsigned long ( 8875824491850138409 ) );
 	//std::cout << "--------------------------------" << std::endl;
 
 	print_ip( std::string( "192.168.0.1" ) );
