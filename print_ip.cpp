@@ -20,7 +20,6 @@ struct type_of_arg
 	static const ETYPE eType = (std::is_integral<T>::value) ? ETYPE::integral : ((std::is_same<T, std::string>::value) ? ETYPE::string : ETYPE::unknown);
 };
 
-
 template<typename T, typename Alloc>
 struct type_of_arg<std::list<T, Alloc>>
 {
@@ -32,7 +31,6 @@ struct type_of_arg<std::vector<T, Alloc> >
 {
 	static const ETYPE eType = ETYPE::vector;
 };
-
 
 template<typename T>
 void print_ip( const T t )
@@ -58,25 +56,11 @@ void print_ip( const T t )
 //	std::cout << _s << std::endl;
 //}
 
-
 template<>
 void print_ip( const std::string  _s )
 {
 	std::cout << _s << std::endl;
 }
-
-template<typename T, typename Alloc>
-void print_ip( std::list<T, Alloc> c)
-{
-	print_collection( c );
-}
-
-template<typename T, typename Alloc>
-void print_ip( std::vector<T, Alloc> c )
-{
-	print_collection( c );
-}
-
 
 template<typename T>
 void print_collection( T c )
@@ -89,6 +73,18 @@ void print_collection( T c )
 			std::cout << ".";
 	}
 	std::cout << std::endl;
+}
+
+template<typename T, typename Alloc>
+void print_ip( std::list<T, Alloc> c)
+{
+	print_collection( c );
+}
+
+template<typename T, typename Alloc>
+void print_ip( std::vector<T, Alloc> c )
+{
+	print_collection( c );
 }
 
 int main()
@@ -113,4 +109,3 @@ int main()
     return 0;
 }
 
-// for build
