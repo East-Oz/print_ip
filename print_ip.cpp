@@ -12,25 +12,25 @@ enum class ETYPE
 	string = 4,
 	unknown = 255
 
-};
+}
 
 template<typename T>
 struct type_of_arg
 {
 	static const ETYPE eType = (std::is_integral<T>::value) ? ETYPE::integral : ((std::is_same<T, std::string>::value) ? ETYPE::string : ETYPE::unknown);
-};
+}
 
 template<typename T, typename Alloc>
 struct type_of_arg<std::list<T, Alloc>>
 {
 	static const ETYPE eType = ETYPE::list;
-};
+}
 
 template <typename T, typename Alloc>
 struct type_of_arg<std::vector<T, Alloc> >
 {
 	static const ETYPE eType = ETYPE::vector;
-};
+}
 
 template<typename T>
 void print_ip( const T t )
@@ -48,7 +48,7 @@ void print_ip( const T t )
 		}
 		std::cout << std::endl;
 	}
-};
+}
 
 //template<>
 //void print_ip( const char* _s )
