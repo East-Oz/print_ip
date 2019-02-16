@@ -47,7 +47,7 @@ void print_ip( const T t )
 		}
 		std::cout << std::endl;
 	}
-};
+}
 
 //template<>
 //void print_ip( const char* _s )
@@ -59,7 +59,7 @@ template<>
 void print_ip( const std::string  _s )
 {
 	std::cout << _s << std::endl;
-};
+}
 
 template<typename T>
 void print_collection( T c )
@@ -72,19 +72,19 @@ void print_collection( T c )
 			std::cout << ".";
 	}
 	std::cout << std::endl;
-};
+}
 
 template<typename T, typename Alloc>
 void print_ip( std::list<T, Alloc> c)
 {
 	print_collection( c );
-};
+}
 
 template<typename T, typename Alloc>
 void print_ip( std::vector<T, Alloc> c )
 {
 	print_collection( c );
-};
+}
 
 int main()
 {
@@ -94,7 +94,7 @@ int main()
 	//std::cout << "--------------------------------" << std::endl;
 	print_ip( int( 2130706433 ) );
 	//std::cout << "--------------------------------" << std::endl;
-	print_ip( long long( 8875824491850138409 ) );
+	print_ip( long long int( 8875824491850138409 ) );
 	//std::cout << "--------------------------------" << std::endl;
 
 	print_ip( std::string( "192.168.0.1" ) );
