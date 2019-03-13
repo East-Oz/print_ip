@@ -3,66 +3,28 @@
 #include <iostream>
 #include <string>
 #include <stdint.h>
+#include <type_traits>
+#include <algorithm>
 
-enum class ETYPE
+/**
+* @brief print_ip - ip-address as std::string
+* @param ip - ip-adress is represented as a string
+*/
+void print_ip( const std::string& ip )
 {
-	list = 1,
-	vector = 2,
-	integral = 3,
-	string = 4,
-	unknown = 255
-};
-
-template<typename T>
-struct type_of_arg
-{
-	static const ETYPE eType = (std::is_integral<T>::value) ? ETYPE::integral : ((std::is_same<T, std::string>::value) ? ETYPE::string : ETYPE::unknown);
-};
-
-template<typename T, typename Alloc>
-struct type_of_arg<std::list<T, Alloc>>
-{
-	static const ETYPE eType = ETYPE::list;
-};
-
-template <typename T, typename Alloc>
-struct type_of_arg<std::vector<T, Alloc> >
-{
-	static const ETYPE eType = ETYPE::vector;
-};
-
-template<typename T>
-void print_ip( const T t )
-{
-	auto type = type_of_arg<T>::eType;
-
-	if( type == ETYPE::integral ) 
-	{ 
-		char* p = ( char* )&t;
-		for( int i = sizeof( t ) - 1; i >= 0; --i )
-		{
-			std::cout << std::to_string( ( unsigned char )p[ i ] );
-			if( i > 0 )
-				std::cout << ".";
-		}
-		std::cout << std::endl;
-	}
+	std::cout << ip << std::endl;
 }
 
-//template<>
-//void print_ip( const char* _s )
-//{
-//	std::cout << _s << std::endl;
-//}
 
-template<>
-void print_ip( const std::string  _s )
-{
-	std::cout << _s << std::endl;
-}
-
+/**
+* @brief print_ip - ip-address as stl container
+* @tparam T - container list<T> or vector<T>
+* @param ip - ip-address is represented as a stl container
+*/
 template<typename T>
-void print_collection( T c )
+typename std::enable_if_t<std::is_same<T, std::vector<typename T::value_type>>::value ||
+	std::is_same<T, std::list<typename T::value_type>>::value, void>
+print_ip( const T& c )
 {
 	for( auto it = c.cbegin(); it != c.cend(); ++it )
 	{
@@ -74,18 +36,30 @@ void print_collection( T c )
 	std::cout << std::endl;
 }
 
-template<typename T, typename Alloc>
-void print_ip( std::list<T, Alloc> c)
+
+/**
+* @brief print_ip - ip-address as integral type
+* @tparam T - intergral type
+* @param ip - ip-address is represented as a integral value
+*/
+template<typename T>
+typename std::enable_if_t<std::is_integral<T>::value, void>
+print_ip( const T& t )
 {
-	print_collection( c );
+	char* p = ( char* )&t;
+	for( int i = sizeof( t ) - 1; i >= 0; --i )
+	{
+		std::cout << std::to_string( ( unsigned char )p[ i ] );
+		if( i > 0 )
+			std::cout << ".";
+	}
+	std::cout << std::endl;
 }
 
-template<typename T, typename Alloc>
-void print_ip( std::vector<T, Alloc> c )
-{
-	print_collection( c );
-}
 
+/**
+* @brief main function
+*/
 int main()
 {
 	print_ip( char( -1 ) );
